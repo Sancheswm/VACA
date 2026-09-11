@@ -1,0 +1,27 @@
+experiment_id: VACA_V1_EXP_VIDEO01_2026-09-11
+status: NOT_CLINICALLY_VALIDATED
+input:
+  dataset: CattleEyeView
+  video: 01.mp4
+  drive_file_id: 1FgAckqvHJKvbw_dpnHMTMD1vVtCLUNga
+processing:
+  width: 480
+  background_frames: 20
+  foreground_threshold: 30.0
+  min_component_area_fullres_px: 8000
+  passage_start_occupancy: 0.03
+  passage_end_occupancy: 0.02
+fallbacks:
+  segmentation: motion_segmentation_lab_illumination_compensated
+  tracking: centroid_greedy_assignment
+blocked:
+  - cow_reid
+  - bovine15_pose
+  - temporal_mobility_model
+  - body_condition_score
+production_target:
+  - RTMDet-Ins
+  - BoT-SORT
+  - open-set ReID
+  - RTMPose-Bovine15
+  - CTR-GCN_or_ST-GCN++
