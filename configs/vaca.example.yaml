@@ -1,0 +1,28 @@
+project:
+  name: VACA
+  stage: research
+  clinical_output_enabled: false
+
+data:
+  root_env: VACA_DATA_ROOT
+  sources:
+    cattleeyeview_videos: external_read_only
+    cattleeyeview_annotations: external_read_only
+    mvp_vaca: legacy_read_only
+    locavisao: legacy_read_only
+
+pipeline:
+  capture_audit: true
+  detection_or_segmentation: true
+  tracking: true
+  bovine15_pose: true
+  temporal_quality_control: true
+  biomechanical_features: true
+  temporal_model: false
+  clinical_classification: false
+
+reproducibility:
+  seed: 42
+  require_git_commit: true
+  require_run_manifest: true
+  forbid_silent_synthetic_fallback: true
