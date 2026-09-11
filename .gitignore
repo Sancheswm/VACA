@@ -37,8 +37,6 @@ wheels/
 *.egg
 
 # PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
 
@@ -109,3 +107,35 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# -----------------------------------------------------------------------------
+# VACA 2026 — dados e artefatos pesados ficam no Google Drive
+# -----------------------------------------------------------------------------
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.7z
+*.pth
+*.ckpt
+*.onnx
+*.engine
+*.npy
+*.npz
+*.h5
+*.hdf5
+runs/
+outputs/
+output_results/
+checkpoints/
+artifacts/
+datasets/
+wandb/
+mlruns/
+.DS_Store
+Thumbs.db
