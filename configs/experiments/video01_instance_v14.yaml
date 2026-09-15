@@ -1,0 +1,70 @@
+experiment:
+  name: VACA_V1_4_MULTI_COW_INSTANCE_VIDEO01
+  status: experimental
+  input_video: "01.mp4"
+  fps_expected: 8.0
+  resolution_expected: [1920, 1080]
+
+labels:
+  source_format: yolo_polygon
+  target_format: coco_instance
+  invariant: "one_polygon_line_equals_one_cow_instance"
+  category: cow
+  category_id: 1
+
+spatial_models:
+  primary_challenger:
+    name: rf_detr_seg_medium
+    role: instance_segmentation
+    license_gate: verify_apache_2_at_checkpoint_freeze
+  incumbent:
+    name: rtmdet_ins_m
+    role: instance_segmentation
+    license: Apache-2.0
+  offline_teacher:
+    name: maskdino_r50
+    role: hard_case_adjudication
+    license: Apache-2.0
+
+benchmark_mode:
+  detector_every_n_frames: 1
+  use_semantic_foreground_as_primary: false
+  allow_geometric_group_split: false
+  allow_overlapping_final_visible_masks: false
+
+video_memory:
+  primary: cutie
+  license: MIT
+  forward_pass: true
+  reverse_pass_after_passage: true
+  detector_reanchor: true
+  disagreement_action: REVIEW
+  forward_backward_min_iou: 0.70
+
+identity_governor:
+  states: [TENTATIVE, VISIBLE, OCCLUDED, REACQUIRE, LOST, REVIEW]
+  cues:
+    mask_iou_weight: 0.50
+    motion_weight: 0.20
+    area_weight: 0.10
+    appearance_weight: 0.20
+  hard_rules:
+    one_visible_pixel_one_owner: true
+    permanent_cow_id_during_unresolved_overlap: false
+    pose_on_review_instances: false
+    hallucinate_amodal_mask_during_complete_occlusion: false
+
+promotion_gates_proposed:
+  mask_ap50_min: 0.90
+  mask_ap75_min: 0.75
+  merge_error_rate_max: 0.02
+  passage_idf1_min: 0.95
+  id_switches_per_1000_track_frames_max: 1.0
+  final_visible_overlap_rate_max: 0.0
+  require_external_camera_farm_holdout: true
+
+outputs:
+  spatial_predictions: "05_RUNS/VACA_V1_4/..."
+  checkpoints: "04_CHECKPOINTS/VACA_V1_4/..."
+  benchmark: "14_BENCHMARKS/VACA_V1_4/..."
+  final_video: "06_OUTPUTS/VACA_V1_4/..."
